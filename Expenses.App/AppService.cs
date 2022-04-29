@@ -15,6 +15,7 @@ namespace Expenses.App
             ContainerBuilder builder = new ContainerBuilder();
             builder.RegisterType<ItemRepository>().As<IItemRepository>();
             builder.RegisterType<ExpenseRepository>().As<IExpenseRepository>();
+            builder.RegisterType<IncomeRepository>().As<IIncomeRepository>();
 
             Container = builder.Build();
         }
@@ -27,6 +28,11 @@ namespace Expenses.App
         public static IExpenseRepository Expense
         {
             get { return Container.Resolve<IExpenseRepository>(); }
+        }
+
+        public static IIncomeRepository Income
+        {
+            get { return Container.Resolve<IIncomeRepository>(); }
         }
     }
 }
