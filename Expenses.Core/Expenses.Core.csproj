@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IExpenseRepository.cs" />
     <Compile Include="Services\IGenericRepository.cs" />
+    <Compile Include="Services\IIncomeRepository.cs" />
     <Compile Include="Services\IItemRepository.cs" />
   </ItemGroup>
   <ItemGroup />

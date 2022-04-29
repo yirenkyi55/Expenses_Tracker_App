@@ -8,17 +8,18 @@ using Dapper;
 
 using Expense.Infrastructure.Helpers;
 
+using Expenses.Core.Domain;
 using Expenses.Core.Services;
 
 namespace Expense.Infrastructure.Repository
 {
-    public class ExpenseRepository : IExpenseRepository
+    public class IncomeRepository : IIncomeRepository
     {
-        public async Task<List<Expenses.Core.Domain.Expense>> GetAllAsync()
+        public async Task<List<Income>> GetAllAsync()
         {
             var result = await ConnectionHelper.Connect(ConfigHelper.ConnnectionString, con =>
             {
-                return con.QueryAsync<Expenses.Core.Domain.Expense>("select * from Expense", commandType: CommandType.Text);
+                return con.QueryAsync<Income>("select * from Income", commandType: CommandType.Text);
             });
 
             return result.ToList();
@@ -28,34 +29,34 @@ namespace Expense.Infrastructure.Repository
         {
             var result = await ConnectionHelper.Connect(ConfigHelper.ConnnectionString, async conn =>
             {
-                int dbResult = await conn.ExecuteAsync("delete from Expense where Id = @Id", new { Id = id }, commandType: CommandType.Text);
+                int dbResult = await conn.ExecuteAsync("delete from Income where Id = @Id", new { Id = id }, commandType: CommandType.Text);
                 return dbResult != 0;
             });
 
             return result;
         }
 
-        public async Task<int> InsertAsync(Expenses.Core.Domain.Expense data)
+        public async Task<int> InsertAsync(Income data)
         {
             var result = await ConnectionHelper.Connect(ConfigHelper.ConnnectionString, async con =>
             {
                 DynamicParameters dynamicParameters = new DynamicParameters();
                 dynamicParameters.Add("@Id", dbType: DbType.Int64, direction: ParameterDirection.Output);
-                dynamicParameters.AddDynamicParams(new { ItemId = data.Item.Id, data.Reason, data.Quantity, data.UnitCost, CreatedDate = DateTime.UtcNow });
-                await con.ExecuteAsync(StoredProcedures.Expense.InsertExpense, dynamicParameters, commandType: CommandType.StoredProcedure);
+                dynamicParameters.AddDynamicParams(new { data.Name, data.Amount, data.Description, CreatedDate = DateTime.UtcNow });
+                await con.ExecuteAsync(StoredProcedures.Income.InsertIncome, dynamicParameters, commandType: CommandType.StoredProcedure);
                 return dynamicParameters.Get<int>("@Id");
             });
 
             return result;
         }
 
-        public async Task<bool> UpdateAsync(Expenses.Core.Domain.Expense data)
+        public async Task<bool> UpdateAsync(Income data)
         {
             var result = await ConnectionHelper.Connect(ConfigHelper.ConnnectionString, async conn =>
             {
                 DynamicParameters dynamicParameters = new DynamicParameters();
                 dynamicParameters.Add("@Id", dbType: DbType.Int64, direction: ParameterDirection.Output);
-                dynamicParameters.AddDynamicParams(new { data.ItemId, data.Reason, data.Quantity, data.UnitCost, UpdatedDate = DateTime.UtcNow });
+                dynamicParameters.AddDynamicParams(new { data.Name, data.Amount, data.Description, UpdatedDate = DateTime.UtcNow });
                 var dbResult = await conn.ExecuteAsync(StoredProcedures.Expense.UpdateExpense, dynamicParameters, commandType: CommandType.StoredProcedure);
 
                 return dbResult != 0;

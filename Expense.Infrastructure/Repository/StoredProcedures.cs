@@ -11,6 +11,7 @@
         public static class Income
         {
             public const string InsertIncome = "sp_Income_Insert";
+            public const string UpdateIncome = "sp_Income_Update";
         }
 
         public static class Expense
