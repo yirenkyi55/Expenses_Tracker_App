@@ -29,13 +29,13 @@ namespace Expense.Infrastructure.Repository
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var result = await ConnectionHelper.Connect(ConfigHelper.ConnnectionString, async conn =>
+            using (var con = new SqlConnection(ConfigHelper.ConnnectionString))
             {
-                int dbResult = await conn.ExecuteAsync("delete from Income where Id = @Id", new { Id = id }, commandType: CommandType.Text);
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+                int dbResult = await con.ExecuteAsync("delete from Income where Id = @Id", new { Id = id }, commandType: CommandType.Text);
                 return dbResult != 0;
-            });
-
-            return result;
+            };
         }
 
         public async Task<int> InsertAsync(Income data)
@@ -58,10 +58,8 @@ namespace Expense.Infrastructure.Repository
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                DynamicParameters dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                dynamicParameters.AddDynamicParams(new { data.Name, data.Amount, data.Description, UpdatedDate = DateTime.UtcNow });
-                var dbResult = await con.ExecuteAsync(StoredProcedures.Expense.UpdateExpense, dynamicParameters, commandType: CommandType.StoredProcedure);
+
+                var dbResult = await con.ExecuteAsync(StoredProcedures.Income.UpdateIncome, new { data.Id, data.Name, data.Amount, data.Description, UpdatedDate = DateTime.UtcNow }, commandType: CommandType.StoredProcedure);
 
                 return dbResult != 0;
             };
