@@ -45,8 +45,8 @@ namespace Expense.Infrastructure.Repository
                 if (con.State == ConnectionState.Closed)
                     con.Open();
                 DynamicParameters dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@Id", dbType: DbType.Int64, direction: ParameterDirection.Output);
-                dynamicParameters.AddDynamicParams(new { ItemId = data.Item.Id, data.Reason, data.Quantity, data.UnitCost, CreatedDate = DateTime.UtcNow });
+                dynamicParameters.Add("@Id", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                dynamicParameters.AddDynamicParams(new { ItemId = data.ItemId, data.Reason, data.Quantity, data.UnitCost, CreatedDate = DateTime.UtcNow });
                 await con.ExecuteAsync(StoredProcedures.Expense.InsertExpense, dynamicParameters, commandType: CommandType.StoredProcedure);
                 return dynamicParameters.Get<int>("@Id");
             };
@@ -58,11 +58,7 @@ namespace Expense.Infrastructure.Repository
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                DynamicParameters dynamicParameters = new DynamicParameters();
-                dynamicParameters.Add("@Id", dbType: DbType.Int64, direction: ParameterDirection.Output);
-                dynamicParameters.AddDynamicParams(new { data.ItemId, data.Reason, data.Quantity, data.UnitCost, UpdatedDate = DateTime.UtcNow });
-                var dbResult = await con.ExecuteAsync(StoredProcedures.Expense.UpdateExpense, dynamicParameters, commandType: CommandType.StoredProcedure);
-
+                var dbResult = await con.ExecuteAsync(StoredProcedures.Expense.UpdateExpense, new { data.ItemId, data.Reason, data.Quantity, data.UnitCost, UpdatedDate = DateTime.UtcNow }, commandType: CommandType.StoredProcedure);
                 return dbResult != 0;
             };
         }

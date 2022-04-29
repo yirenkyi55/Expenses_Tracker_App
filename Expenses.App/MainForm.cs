@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Expenses.App
 {
@@ -12,6 +13,12 @@ namespace Expenses.App
         private void MainForm_Load(object sender, EventArgs e)
         {
         }
+
+        //private void CalculateTotalExpense(List<Core.Domain.Expense> expenses)
+        //{
+        //    var totalExpense = expenses.Sum(x => x.Quantity * x.UnitCost);
+        //    lblTotalExpenses.Text = totalExpense.ToString("c");
+        //}
 
         private void btnIncome_Click(object sender, EventArgs e)
         {
