@@ -15,7 +15,7 @@ namespace Expenses.App
 
         private void btnIncome_Click(object sender, EventArgs e)
         {
-            var incomeForm = new IncomeForm();
+            var incomeForm = new FormIncome(AppService.Income);
             incomeForm.ShowDialog();
         }
 

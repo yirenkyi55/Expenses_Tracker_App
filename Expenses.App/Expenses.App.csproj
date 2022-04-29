@@ -95,11 +95,11 @@
     <Compile Include="ExpenseForm.Designer.cs">
       <DependentUpon>ExpenseForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="IncomeForm.cs">
+    <Compile Include="FormIncome.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IncomeForm.Designer.cs">
-      <DependentUpon>IncomeForm.cs</DependentUpon>
+    <Compile Include="FormIncome.Designer.cs">
+      <DependentUpon>FormIncome.cs</DependentUpon>
     </Compile>
     <Compile Include="ItemForm.cs">
       <SubType>Form</SubType>
@@ -118,8 +118,8 @@
     <EmbeddedResource Include="ExpenseForm.resx">
       <DependentUpon>ExpenseForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IncomeForm.resx">
-      <DependentUpon>IncomeForm.cs</DependentUpon>
+    <EmbeddedResource Include="FormIncome.resx">
+      <DependentUpon>FormIncome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemForm.resx">
       <DependentUpon>ItemForm.cs</DependentUpon>

@@ -194,7 +194,7 @@
             this.ClientSize = new System.Drawing.Size(1045, 626);
             this.Controls.Add(this.metroPanel1);
             this.Name = "MainForm";
-            this.Text = "MainForm";
+            this.Text = "Expense Tracker";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.metroPanel1.ResumeLayout(false);
             this.metroPanel1.PerformLayout();
